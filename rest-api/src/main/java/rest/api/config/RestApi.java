@@ -1,5 +1,6 @@
 package rest.api.config;
 
+import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import rest.api.filter.CharsetResponseFilter;
 
@@ -16,6 +17,7 @@ public class RestApi extends ResourceConfig {
         packages("rest.api.exception");
 
         register(CharsetResponseFilter.class);
+        register(JacksonFeature.class);
     }
 
 }
