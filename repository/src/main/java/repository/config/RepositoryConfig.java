@@ -46,6 +46,7 @@ public class RepositoryConfig {
         ResourceDatabasePopulator databasePopulator = new ResourceDatabasePopulator();
         databasePopulator.setContinueOnError(true);
         databasePopulator.addScript(new ClassPathResource("db/create.sql"));
+        databasePopulator.addScript(new ClassPathResource("db/test_data.sql"));
         return databasePopulator;
     }
 

@@ -31,7 +31,11 @@ public class WordResource {
             id = null;
         }
 
-        return wordRepository.findById(id);
+        Word word = wordRepository.findById(id);
+
+        System.out.println("Word: " + word);
+
+        return word;
     }
 
     @GET

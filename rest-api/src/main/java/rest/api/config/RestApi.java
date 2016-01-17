@@ -14,7 +14,7 @@ public class RestApi extends ResourceConfig {
 
     public RestApi() {
         packages("rest.api.resource");
-        packages("rest.api.exception");
+//        packages("rest.api.exception");
 
         register(CharsetResponseFilter.class);
         register(JacksonFeature.class);
