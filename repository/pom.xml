@@ -65,6 +65,12 @@
             <artifactId>hibernate-core</artifactId>
         </dependency>
 
+        <!-- Guava -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

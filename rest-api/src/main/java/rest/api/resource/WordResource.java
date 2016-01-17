@@ -5,12 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import repository.WordRepository;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 /**
  * @author bbuallbest
@@ -31,18 +27,27 @@ public class WordResource {
             throw new RuntimeException("Word is eq to 55");
         }
 
+        if (new Long(77).equals(id)) {
+            id = null;
+        }
+
         return wordRepository.findById(id);
     }
 
     @GET
     @Path("/{id}/new")
-    public Response createNew(@PathParam("id") Long id) {
-        wordRepository.createNew(id);
-
-        return Response
-                .status(Response.Status.OK)
-                .entity("{\"isCreated\":\"true\"}")
+    public Word createNew(@PathParam("id") Long id,
+                              @QueryParam("source") String source,
+                              @QueryParam("translation") String translation) {
+        Word word = Word.builder()
+                .id(id)
+                .source(source)
+                .translation(translation)
                 .build();
+
+        wordRepository.create(word);
+
+        return word;
     }
 
 }

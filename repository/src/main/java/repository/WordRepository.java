@@ -1,35 +1,38 @@
 package repository;
 
+import com.google.common.base.Preconditions;
 import entity.Word;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import repository.util.ValidationMessage;
 
 /**
  * @author bbuallbest
  */
-@Component
+// TODO: remove Transaction management from this layer..
+@Repository
 public class WordRepository {
 
     @Autowired
     private SessionFactory sessionFactory;
 
+    @Transactional(propagation = Propagation.REQUIRED)
     public Word findById(Long id) {
-        if (id == null) {
-            throw new IllegalArgumentException("Can't find Word by id, because id is null!");
-        }
-        return (Word) sessionFactory.openSession().get(Word.class, id);
+        Preconditions.checkNotNull(id, ValidationMessage.CANT_FIND_OBJECT_BY_NULL_ID);
+        return (Word) sessionFactory
+                .getCurrentSession()
+                    .get(Word.class, id);
     }
 
-    public void createNew(Long id) {
-        Word word = new Word();
-        word.setId(id);
-        word.setSource("successfully");
-        word.setTranslation("успешно");
-
-        Session session = sessionFactory.openSession();
-        session.persist(word);
-        session.flush();
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void create(Word word) {
+        Preconditions.checkNotNull(word, ValidationMessage.CANT_PERSIST_NULLABLE_ENTITY);
+        sessionFactory
+                .getCurrentSession()
+                    .persist(word);
     }
+
 }

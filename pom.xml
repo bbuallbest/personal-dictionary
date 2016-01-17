@@ -17,6 +17,8 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <java.version>1.8</java.version>
+
     <version.lombok>1.16.6</version.lombok>
     <version.jersey>2.22.1</version.jersey>
     <version.spring>4.0.6.RELEASE</version.spring>
@@ -25,6 +27,7 @@
     <version.h2>1.4.187</version.h2>
     <version.hibernate>4.3.5.Final</version.hibernate>
     <version.hibernate.jpa-api>1.0.0.Final</version.hibernate.jpa-api>
+    <version.guava>19.0</version.guava>
   </properties>
 
   <dependencyManagement>
@@ -171,6 +174,27 @@
         <version>${version.servlet-api}</version>
       </dependency>
 
+      <!-- Guava -->
+      <dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+        <version>${version.guava}</version>
+      </dependency>
+
     </dependencies>
   </dependencyManagement>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.1</version>
+        <configuration>
+          <source>${java.version}</source>
+          <target>${java.version}</target>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>

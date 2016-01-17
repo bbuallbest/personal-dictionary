@@ -15,7 +15,9 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.init.DatabasePopulator;
 import org.springframework.jdbc.datasource.init.DatabasePopulatorUtils;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
+import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 import java.beans.PropertyVetoException;
@@ -26,6 +28,7 @@ import java.sql.SQLException;
  */
 @Configuration
 @ComponentScan("repository")
+@EnableTransactionManagement
 public class RepositoryConfig {
 
     @DependsOn("h2WebServer")
@@ -62,10 +65,15 @@ public class RepositoryConfig {
     @Bean(name = "sessionFactory")
     public SessionFactory getSessionFactory(DataSource dataSource) {
         LocalSessionFactoryBuilder sessionBuilder = new LocalSessionFactoryBuilder(dataSource);
-        sessionBuilder.addAnnotatedClasses(Word.class,
-                Vocabulary.class, User.class);
+        sessionBuilder.scanPackages("entity");
         sessionBuilder.setProperty("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
         return sessionBuilder.buildSessionFactory();
+    }
+
+    @Autowired
+    @Bean(name = "txManager")
+    public HibernateTransactionManager getTransactionManager(SessionFactory sessionFactory) {
+        return new HibernateTransactionManager(sessionFactory);
     }
 
 }

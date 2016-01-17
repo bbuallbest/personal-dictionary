@@ -1,5 +1,6 @@
 package entity;
 
+import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -8,6 +9,7 @@ import javax.persistence.*;
  * @author bbuallbest
  */
 @Data
+@Builder
 @Entity
 @Table(name = "WORDS")
 public class Word {
